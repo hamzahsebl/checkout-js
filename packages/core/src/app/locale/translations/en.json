@@ -248,6 +248,7 @@
             "opy_invalid_cart_error": "Cart price is different to {methodName} plan amount.",
             "orbital_continue_action": "Place Order",
             "orbital_description_text": "Pay using your ChasePay Account",
+            "partially_continue_action": "Continue with Partially",
             "payment_cancelled": "Payment was cancelled",
             "payment_error": "An error occurred while processing your payment. Please try again.",
             "payment_error_heading": "Payment Failed",

@@ -1,6 +1,6 @@
 {
   "name": "@bigcommerce/checkout",
-  "version": "1.245.4",
+  "version": "1.245.5",
   "private": true,
   "description": "Browser-based application providing a seamless UI for BigCommerce shoppers to complete their checkout.",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "preinstall": "npx check-node-version --package",
-    "prebuild": "rm -rf dist",
+    "prebuild": "del dist",
     "build": "nx run core:build",
     "build:server": "http-server dist",
     "dev": "nx run core:dev",
@@ -102,6 +102,7 @@
     "@types/jest": "^24.0.17",
     "@types/node": "^12.6.9",
     "@types/object-hash": "^1.2.0",
+    "@types/react-helmet": "^6.1.5",
     "@types/react-test-renderer": "^16.8.3",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/eslint-plugin-tslint": "^5.30.5",

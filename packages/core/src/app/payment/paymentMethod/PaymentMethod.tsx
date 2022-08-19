@@ -41,6 +41,7 @@ import StripePaymentMethod from './StripePaymentMethod';
 import StripeUPEPaymentMethod from './StripeUPEPaymentMethod';
 import VisaCheckoutPaymentMethod from './VisaCheckoutPaymentMethod';
 import WorldpayCreditCardPaymentMethod from './WorldpayCreditCardPaymentMethod';
+import PartiallyPaymentMethod from './PartiallyPaymentMethod';
 
 export interface PaymentMethodProps {
     method: PaymentMethod;
@@ -242,6 +243,11 @@ const PaymentMethodComponent: FunctionComponent<PaymentMethodProps & WithCheckou
     if (method.gateway === PaymentMethodId.Mollie) {
         return <MolliePaymentMethod { ...props } />;
     }
+
+    if (method.gateway === PaymentMethodId.Partially) {
+        return <PartiallyPaymentMethod { ...props } />;
+    }
+
     // NOTE: Some payment methods have `method` as `credit-card` but they are
     // actually not. Therefore, as a workaround, we are doing the following
     // check last.

@@ -171,6 +171,10 @@ function getPaymentMethodTitle(
                 logoUrl: paymentWithLogo.includes(method.id) ? cdnPath(`/img/payment-providers/stripe-${method.id.toLowerCase()}.svg`) : '',
                 titleText: method.method === 'iban' ? language.translate('payment.stripe_sepa_display_name_text') : methodName,
             },
+            [PaymentMethodId.Partially]: {
+                logoUrl: '',
+                titleText: methodDisplayName,
+            },
             [PaymentMethodId.StripeUPE]: {
                 logoUrl: paymentWithLogo.includes(method.id) ? cdnPath(`/img/payment-providers/stripe-${method.id.toLowerCase()}.svg`) : '',
                 titleText: method.method === 'iban' ? language.translate('payment.stripe_sepa_display_name_text') : methodName,

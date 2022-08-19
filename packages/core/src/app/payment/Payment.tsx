@@ -314,7 +314,8 @@ class Payment extends Component<PaymentProps & WithCheckoutPaymentProps & WithLa
             selectedMethod.gateway === PaymentMethodId.Clearpay ||
             selectedMethod.gateway === PaymentMethodId.Checkoutcom ||
             selectedMethod.gateway === PaymentMethodId.Mollie ||
-            selectedMethod.gateway === PaymentMethodId.StripeV3) {
+            selectedMethod.gateway === PaymentMethodId.StripeV3 ||
+            selectedMethod.gateway === PaymentMethodId.Partially) {
             return;
         }
 
@@ -517,7 +518,10 @@ export function mapToPaymentProps({
     const customer = getCustomer();
     const consignments = getConsignments();
     const { isComplete = false } = getOrder() || {};
-    const methods = getPaymentMethods() || EMPTY_ARRAY;
+    var methods = getPaymentMethods() || EMPTY_ARRAY;
+
+    // Adding partially
+    methods = methods.concat(getPartiallyMethod());
 
     if (!checkout || !config || !customer || isComplete) {
         return null;
@@ -595,6 +599,29 @@ export function mapToPaymentProps({
             undefined,
         usableStoreCredit: checkout.grandTotal > 0 ?
             Math.min(checkout.grandTotal, customer.storeCredit || 0) : 0,
+    };
+}
+
+export function getPartiallyMethod(): PaymentMethod {
+    return {
+        id: 'partially',
+        gateway: 'partially',
+        logoUrl: '',
+        method: 'external',
+        supportedCards: [
+            'VISA',
+            'AMEX',
+            'MC',
+        ],
+        config: {
+            displayName: 'Partially',
+            helpText: '',
+            merchantId: 'partially',
+            testMode: true,
+            redirectUrl: 'https://www.google.com',
+            returnUrl: 'https://www.google.com'
+        },
+        type: 'PAYMENT_TYPE_API',
     };
 }
 

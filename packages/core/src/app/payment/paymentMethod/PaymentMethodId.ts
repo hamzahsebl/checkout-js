@@ -39,6 +39,7 @@ enum PaymentMethodId {
     Opy = 'opy',
     OrbitalGooglePay = 'googlepayorbital',
     Oxxo = 'oxxo',
+    Partially = 'partially',
     PaypalExpress = 'paypalexpress',
     PaypalPaymentsPro = 'paypal',
     PaypalCommerce = 'paypalcommerce',

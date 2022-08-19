@@ -56,6 +56,7 @@ const Button: FunctionComponent<ButtonProps> = ({
     testId,
     type,
     variant,
+    style,
     ...rest
 }) => (
     <button
@@ -64,6 +65,7 @@ const Button: FunctionComponent<ButtonProps> = ({
         data-test={ testId }
         disabled={ disabled || isLoading }
         type={ type ? type : 'button' }
+        style={ style }
     >
         { children }
     </button>

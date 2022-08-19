@@ -64,6 +64,10 @@ const PaymentSubmitButtonText: FunctionComponent<PaymentSubmitButtonTextProps> =
         return <TranslatedString id="payment.braintreevenmo_continue_action" />;
     }
 
+    if (methodGateway === PaymentMethodId.Partially) {
+        return <TranslatedString id="payment.partially_continue_action" />;
+    }
+
     if (methodType === PaymentMethodType.PaypalCredit) {
         return <TranslatedString data={ { brandName } } id={ brandName ? 'payment.continue_with_brand' : 'payment.paypal_pay_later_continue_action' } />;
     }
@@ -126,6 +130,7 @@ const PaymentSubmitButton: FunctionComponent<PaymentSubmitButtonProps & WithChec
             size={ ButtonSize.Large }
             type="submit"
             variant={ ButtonVariant.Action }
+            style={ methodGateway === PaymentMethodId.Partially ? {display: 'none'} : undefined }
         >
             <PaymentSubmitButtonText
                 brandName={ brandName }

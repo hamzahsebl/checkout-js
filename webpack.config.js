@@ -180,6 +180,7 @@ function appConfig(options, argv) {
                             exclude: [
                                 /\/node_modules\/core-js\//,
                                 /\/node_modules\/webpack\//,
+                                /node_modules/,
                             ],
                             options: {
                                 presets: [
@@ -308,6 +309,7 @@ function loaderConfig(options, argv) {
                             exclude: [
                                 /\/node_modules\/core-js\//,
                                 /\/node_modules\/webpack\//,
+                                /node_modules/,
                             ],
                             options: {
                                 presets: [
