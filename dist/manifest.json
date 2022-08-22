@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "appVersion": "1.245.6",
+  "dynamicChunks": {
+    "js": [
+      "372-772dbcb2.js",
+      "501-1b63c91b.js",
+      "630-991150e1.js",
+      "680-4dfe52d3.js",
+      "831-e5f7b984.js",
+      "billing-47ad1762.js",
+      "cart-summary-drawer-6be68935.js",
+      "cart-summary-945c58e3.js",
+      "customer-1a02434e.js",
+      "order-summary-drawer-569ab2b9.js",
+      "order-summary-755fe380.js",
+      "payment-4a5b608d.js",
+      "shipping-dfe0e597.js"
+    ],
+    "css": [
+      "billing-8acb73cf.css",
+      "cart-summary-drawer-6e3e5baa.css",
+      "cart-summary-6e3e5baa.css",
+      "customer-5fea78b3.css",
+      "payment-ef4c2c40.css",
+      "shipping-8cb2ae9d.css"
+    ],
+    "svg": [
+      "static/card-bc94a955.svg"
+    ],
+    "png": [
+      "static/powered_by_google_on_white-f127e368.png"
+    ]
+  },
+  "js": [
+    "runtime-3a37fa5f.js",
+    "780-de70712e.js",
+    "checkout-b2baf37d.js"
+  ],
+  "css": [
+    "checkout-f71cca17.css"
+  ]
+}

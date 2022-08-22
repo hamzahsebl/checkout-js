@@ -1,61 +1,88 @@
-import React, { FunctionComponent } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { configurePartiallyButton } from './../../../../../../scripts/custom/partially';
-
 import { CheckoutContextProps, withCheckout } from '../../checkout';
-import HostedPaymentMethod, { HostedPaymentMethodProps } from './HostedPaymentMethod';
-import { PaymentMethodProps } from './PaymentMethod';
-import { EMPTY_ARRAY } from '../../common/utility';
-import PaymentMethodProviderType from './PaymentMethodProviderType';
+import { Checkout, PaymentMethod } from '@bigcommerce/checkout-sdk';
+import { PaymentFormValues } from '@bigcommerce/checkout/payment-integration-api';
+import { ConnectFormikProps, connectFormik } from '../../common/form';
+import { MapToPropsFactory } from '../../common/hoc';
+import { WithLanguageProps, withLanguage } from '../../locale';
+import withPayment, { WithPaymentProps } from '../withPayment';
+import { noop } from 'lodash';
 
-export type PartiallyPaymentMethodProps = HostedPaymentMethodProps;
-
-interface WithCheckoutPartiallyPaymentMethodPaymentMethodProps {
-      isHostedPayment: boolean;
+export interface HostedPaymentMethodProps {
+  method: PaymentMethod;
+  onUnhandledError?(error: Error): void;
 }
 
-const PartiallyPaymentMethod: FunctionComponent<PartiallyPaymentMethodProps &
-WithCheckoutPartiallyPaymentMethodPaymentMethodProps>  = ({
-      isHostedPayment
-  }) => {
-      configurePartiallyButton.call(isHostedPayment);
+interface WithCheckoutHostedPaymentMethodProps {
+  checkout: Checkout | undefined;
+}
 
-      // useEffect(() => {
-      //       const initializePayment = async () => {
-      //           try {
-      //                   //hidePaymentSubmitButton(method, true);
-      //                   var c = await checkoutService.loadCheckout();
-      //                   const cart = getCart();
-      //                   await configurePartiallyButton.call(c.data.getCart()?.lineItems);
-                    
-      //           } catch (error) {
-      //               //onUnhandledError("Failed to load payment merchant");
-      //           }
-      //       };
-      //       initializePayment();
-      //   }, [method, onUnhandledError]);
-    
-      
-              return (
-                      <div id="partiallyCartButtonContainer"></div>
-                );
+class PartiallyPaymentMethod extends Component<
+      HostedPaymentMethodProps &
+      WithCheckoutHostedPaymentMethodProps &
+      WithPaymentProps &
+      WithLanguageProps &
+      ConnectFormikProps<PaymentFormValues>
+> {
+  async componentDidMount(): Promise<void> {
+      const {
+          method,
+          checkout,
+          onUnhandledError = noop
+      } = this.props;
 
-    
-};
+      try {
+            if (checkout && method){
+                var offer = '254ac2f3-edf2-49b2-9cf4-bccb43731d45';
+                var lineItems = checkout?.cart.lineItems.physicalItems;
+                var total = checkout.grandTotal;
 
-function mapToPartiallyPaymentMethodProps(
-      { checkoutState }: CheckoutContextProps,
-      { method }: PaymentMethodProps
-  ): WithCheckoutPartiallyPaymentMethodPaymentMethodProps {
-      const { data: { getCheckout } } = checkoutState;
-    const { payments = EMPTY_ARRAY } = getCheckout() || {};
-    const selectedHostedMethod = payments.find(({ providerType }) => providerType === PaymentMethodProviderType.Hosted);
+                configurePartiallyButton(lineItems, total, method.config.returnUrl, method.config.redirectUrl, offer);
 
-    return {
-        isHostedPayment: selectedHostedMethod ?
-            selectedHostedMethod.providerId === method.id && selectedHostedMethod.gatewayId === method.gateway :
-            false,
-    };
+            } else {
+                throw new Error();
+            }
+      } catch (error) {
+          onUnhandledError("Failed to load partial.ly, please try again later.");
+      }
   }
 
+  render(): ReactNode {
+      const {
+      } = this.props;
 
-export default withCheckout(mapToPartiallyPaymentMethodProps)(PartiallyPaymentMethod);
+      return (
+        <div id="partiallyCartButtonContainer"></div>
+      );
+  }
+}
+
+const mapFromCheckoutProps: MapToPropsFactory<
+  CheckoutContextProps,
+  WithCheckoutHostedPaymentMethodProps,
+  HostedPaymentMethodProps & ConnectFormikProps<PaymentFormValues>
+> = () => {
+  return (context, props) => {
+      const {
+        method
+      } = props;
+
+      const { checkoutState } = context;
+
+      const {
+          data: {
+              getCheckout
+          },
+      } = checkoutState;
+
+      const checkout = getCheckout();
+
+      return {
+          checkout: checkout,
+          method: method
+      };
+  };
+};
+
+export default connectFormik(withLanguage(withPayment(withCheckout(mapFromCheckoutProps)(PartiallyPaymentMethod))));
